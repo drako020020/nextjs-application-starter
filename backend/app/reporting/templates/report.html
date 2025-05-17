@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Security Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>Security Report</h1>
+
+    <h2>Recent Scan Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Host IP</th>
+                <th>Hostname</th>
+                <th>Open Ports</th>
+                <th>Operating System</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for scan in scans %}
+            <tr>
+                <td>{{ scan.host_ip }}</td>
+                <td>{{ scan.hostname }}</td>
+                <td>
+                    {% for port in scan.open_ports %}
+                        {{ port.port }} ({{ port.state }}), 
+                    {% endfor %}
+                </td>
+                <td>{{ scan.os }}</td>
+                <td>{{ scan.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Recent Login Attempts</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Success</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for login in logins %}
+            <tr>
+                <td>{{ login.email }}</td>
+                <td>{{ 'Yes' if login.success else 'No' }}</td>
+                <td>{{ login.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
